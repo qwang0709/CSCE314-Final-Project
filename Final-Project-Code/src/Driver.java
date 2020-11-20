@@ -22,19 +22,21 @@
 **
 ** To ensure that all data received and in the correct order, a checkpoint is periodically created by A, summarizing all the
 ** messages sent since the last checkpoint. It is then passed down the pipeline without being altered so that the last pipe,
-** let’s say C, can read it. Between each checkpoint, system C keeps a running list of all events it has received so that it can
+** letâ€™s say C, can read it. Between each checkpoint, system C keeps a running list of all events it has received so that it can
 ** compute its own checkpoint message to see whether it matches the checkpoint received by A.
 **
-** As for how we are going to create this “checkpoint”, we are not yet sure yet because we are not that familiar with the syntax.
+** As for how we are going to create this â€œcheckpointâ€�, we are not yet sure yet because we are not that familiar with the syntax.
 ** Java does not have pointers like C++. If we implemented this in C++, we would simply create a Merkle Tree with the data that
 ** A has sent to the pipeline, and would then send the root hash as the checkpoint. The last pipe, C would create its own root hash
-** and check whether it matches the one sent by A. If they don’t, we can use the merkle tree to quickly determine which particular
+** and check whether it matches the one sent by A. If they donâ€™t, we can use the merkle tree to quickly determine which particular
 ** subtree has the problem in log(n) time instead of O(n) time in case we sent a hash list. 
 
 ***********************************************/
 
 import java.util.ArrayList;
 import java.util.List;
+
+import hiearchy.Person;
 
 public class Driver
 {
@@ -53,9 +55,11 @@ public class Driver
 		MerkleTrees merkleTrees = new MerkleTrees(tempList);
 
 		// Construct the Merkle tree with the list input
-		merkleTrees.merkle_tree();
+		merkleTrees.createRoot();
 
 		// Print out the hashed tree root
 		System.out.println("root : " + merkleTrees.getRoot());
+		
+		
 	}
 }

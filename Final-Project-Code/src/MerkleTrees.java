@@ -12,20 +12,14 @@
 **
 ***********************************************/
 
-
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MerkleTrees 
 {
-
-	// A list of leaf nodes
-	List<String> txList;
-
-	// Merkle tree root
-	String root;
-	
+	List<String> txList; // A list of leaf nodes
+	String root; // Merkle tree root
 	//-------------------------------------------------------
 	// Name: MerkleTrees
 	// PreCondition:  The text list is valid.
@@ -33,6 +27,7 @@ public class MerkleTrees
 	// string 'root' with null. 
 	//---------------------------------------------------------
 	
+	// CONSTRUCTOR
 	public MerkleTrees(List<String> txList) 
 	{
 		this.txList = txList;
@@ -44,7 +39,9 @@ public class MerkleTrees
 	// PreCondition:  The text list is not empty or null.
 	// PostCondition: Construct the tree
 	//---------------------------------------------------------
-	public void merkle_tree() 
+	
+	// CREATES HASH
+	public void createRoot() 
 	{
 		List<String> tempList = new ArrayList<String>();
 		for (int i = 0; i < this.txList.size(); i++) 
@@ -57,7 +54,12 @@ public class MerkleTrees
 
 		this.root = newTxList.get(0);
 	}
-	
+	// RETURNS HASH 
+	public String getRoot() 
+	{
+		{ return this.root; }
+	}
+
 	//-------------------------------------------------------
 	// Name: getNewList (Sub-function for merkle_tree)
 	// PreCondition: tempList is not empty or null.
@@ -120,9 +122,5 @@ public class MerkleTrees
 	// PostCondition: Returns the SHA2 hashed root value of this Merkle tree.
 	//---------------------------------------------------------
 
-	public String getRoot() 
-	{
-		{ return this.root; }
-	}
 
 }
