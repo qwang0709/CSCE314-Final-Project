@@ -14,23 +14,19 @@
 
 **Preliminary Project Application and Description
 
-** In our project, we will create a data processing pipeline where messages flow in one direction.
-** All the messages that come out of A are processed and transformed to some new value-added structure that is sent
-** onto the end of the pipeline. In between are queues to decouple the system. The information we intend to send will
-** be an instance of a class that will hold specific information which the pipeline will then change. We have not yet
-** decided what kind of class we want to create, but each instance will have a unique ID as one of its attributes that we
-** will utilize to hash.
-**
-** To ensure that all data received and in the correct order, a checkpoint is periodically created by A, summarizing all the
-** messages sent since the last checkpoint. It is then passed down the pipeline without being altered so that the last pipe,
-** letâ€™s say C, can read it. Between each checkpoint, system C keeps a running list of all events it has received so that it can
-** compute its own checkpoint message to see whether it matches the checkpoint received by A.
-**
-** As for how we are going to create this â€œcheckpointâ€�, we are not yet sure yet because we are not that familiar with the syntax.
-** Java does not have pointers like C++. If we implemented this in C++, we would simply create a Merkle Tree with the data that
-** A has sent to the pipeline, and would then send the root hash as the checkpoint. The last pipe, C would create its own root hash
-** and check whether it matches the one sent by A. If they donâ€™t, we can use the merkle tree to quickly determine which particular
-** subtree has the problem in log(n) time instead of O(n) time in case we sent a hash list. 
+**		In our project, we will create an application that enabled users in a game to see if the avatars’ data, or information, 
+** has been modified, which could potentially be a red flag for information leak of their avatars. 
+**		There are three general types of avatars: lower, middle and upper classes. And each avatar contains a name, age, sex, 
+** ID, his/her job name and his/her wage. If an avatar’s personal information has been modified, it would result in i
+** nconsistent hash roots of the Merkle tree. And the nodes or leaves of the Merkle tree are each individual string that 
+** contains each a piece of one member’s personal information.
+**		For example, if there is an avatar in lower classes with the information: name => ‘John Doe’, age =>’20’, sex=>’m’, 
+** ID=>’123abc’, job name=>’Police’, wage=>’4000’. Then the player or actually a hacker comes in and changed your avatar’s
+**  wage ‘4000’ to ‘0’ in order to gain unfair advantages when you battle with each other. Then our application would give 
+**  you a warning that your avatar’s information has been modified. 
+**		And at the point you want to quit our application, it will give you a whole list containing all the change histories of 
+** your avatar’s information in every classes.
+**		There are Inheritance, Abstraction, Collections, Generics and Stubs used in this code.
 
 ***********************************************/
 
@@ -62,14 +58,15 @@ public class Driver
 		//Checking the whole information (Generics)
 		List<Person> temp = new ArrayList<Person>();
 
-		// Create the Scanner code to gather a float and an integer using the variables
-		// already created
-
 		while (true) 
 		{
+			// Create the Scanner 
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Please enter your Class Option: (Example: upper, middle, or lower) ");
+			
+			// Can only proceed with a chosen class option
 			class_option = sc.next();
+			
 			if (class_option.equals("lower")) 
 			{
 				System.out.println("Please enter your name: ");
@@ -90,9 +87,10 @@ public class Driver
 				LowerClass person_lower = new LowerClass(name, sex, age, id, job_lower);
 				
 				
-				//Checking the whole information (Generics)
+				// Adding lower class object to generics list 
 				temp.add(person_lower);
 				
+				//Creating each tree leaf, that is, the each piece of info
 				List<String> tempList1 = new ArrayList<String>();
 				tempList1.add(person_lower.getName());
 				tempList1.add(Character.toString(person_lower.getSex()));
@@ -101,7 +99,7 @@ public class Driver
 				tempList1.add(person_lower.getJob().getJobName());
 				tempList1.add(Double.toString(person_lower.getJob().getWage()));
 
-				// Polymorphsim
+				// Calling the toString function (polymorphsim)
 				System.out.println(person_lower.toString());
 
 				// Make a person's info a merkle tree
@@ -120,8 +118,10 @@ public class Driver
 				} 
 				else 
 				{
+					// If the new hash root is not equal to the previous one
 					if (!(tempRoot.equals(hashes_lower.get(hashes_lower.size() - 1)))) 
 					{
+						// Adding it to the list first then inform the user
 						hashes_lower.add(tempRoot);
 						System.out.println("Warning: Your personal info has been modified in lower class!!");
 					} 
@@ -140,7 +140,10 @@ public class Driver
 					break;
 				}
 
-			} // end of lower
+			} 
+			// end of lower class
+			
+			// The below two else-if statements implemtned the same way as the first one.
 
 			else if (class_option.equals("middle")) 
 			{
@@ -210,7 +213,8 @@ public class Driver
 					break;
 				}
 
-			} // end of lower
+			} 
+			// end of middle class
 
 			else if (class_option.equals("upper")) 
 			{
@@ -280,13 +284,15 @@ public class Driver
 					break;
 				}
 
-			} // end of upper
+			} 
+			// end of upper class
 			else 
 			{
 				System.out.println("You have typed an wrong class option!");
 			}
 
-		} // end while true
+		} 
+		// end while true
 		
 		System.out.println("The whole person information (Generics): \n "+temp); 
 
