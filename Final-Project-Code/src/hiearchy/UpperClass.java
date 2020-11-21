@@ -1,12 +1,12 @@
 package hiearchy;
 
 public class UpperClass extends Person {
-	int numberOfSlaves;
-	int netWorth; 
-	public UpperClass(String name, char sex, int age, String id, Job job, int numSlaves, int netWorth) {
+//	int numberOfSlaves;
+//	int netWorth; 
+	public UpperClass(String name, char sex, int age, String id, Job job) {
 		super(name, sex, age, id, job);
-		this.netWorth = netWorth;
-		this.numberOfSlaves = numSlaves;
+	//	this.netWorth = netWorth;
+	//	this.numberOfSlaves = numSlaves;
 	}
 
 	@Override

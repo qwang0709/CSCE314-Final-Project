@@ -7,6 +7,7 @@ public class LowerClass extends Person {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	@Override
 	public String toString() {
 		return "LowerClass [name=" + name + ", id=" + id + ", sex=" + sex + ", age=" + age + ", job=" + job + "]";

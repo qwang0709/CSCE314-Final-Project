@@ -18,6 +18,9 @@ public abstract class Person {
 	}
 	
 	// Getters
+	public Job getJob() {
+		return job;
+	}
 	public String getName() {
 		return name;
 	}
@@ -32,12 +35,23 @@ public abstract class Person {
 	}
 	
 	// Setters
+	public void setJob(Job job) {
+		this.job = job;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+	public void setSex(char sex) {
+		this.sex = sex;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override

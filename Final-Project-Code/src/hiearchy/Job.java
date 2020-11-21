@@ -4,6 +4,12 @@ public class Job {
 	String name = "Unknown";
 	double wage = 0;
 	
+	public 	Job (String name, double wage) {
+		this.name = name;
+		this.wage = wage;
+	}
+	
+	
 	public String getJobName() {
 		return name;
 	}
