@@ -37,7 +37,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import hiearchy.Job;
 import hiearchy.Person;
 import hiearchy.LowerClass;
 import hiearchy.MiddleClass;
@@ -48,13 +47,14 @@ public class Driver
 	public static void main(String[] args) 
 	{
 		boolean boo = true;
-		String class_option = "";
-		String name = "";
-		String id = "";
-		String job_name = "";
+		String class_option;
+		String name;
+		String id;
+		String job_name;
 		int age = 0;
-		char sex = ' ';
+		char sex;
 		double wage = 0.0;
+		
 		List<String> hashes_lower = new ArrayList<String>();
 		List<String> hashes_middle = new ArrayList<String>();
 		List<String> hashes_upper = new ArrayList<String>();
@@ -68,7 +68,7 @@ public class Driver
 		while (true) 
 		{
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Please enter your Class Option: (Example: upper, middle, or lower) ");
+			System.out.println("Please enter your Class Option (Example: upper, middle, or lower): ");
 			class_option = sc.next();
 			if (class_option.equals("lower")) 
 			{
@@ -85,21 +85,19 @@ public class Driver
 				System.out.println("Please enter your wage: ");
 				wage = sc.nextDouble();
 
-				Job job_lower = new Job(job_name, wage);
+			
 				// Initalize 
-				LowerClass person_lower = new LowerClass(name, sex, age, id, job_lower);
+				LowerClass person_lower = new LowerClass(name, sex, age, id);
 				
 				
 				//Checking the whole information (Generics)
 				temp.add(person_lower);
 				
 				List<String> tempList1 = new ArrayList<String>();
-				tempList1.add(person_lower.getName());
-				tempList1.add(Character.toString(person_lower.getSex()));
-				tempList1.add(Integer.toString(person_lower.getAge()));
-				tempList1.add(person_lower.getId());
-				tempList1.add(person_lower.getJob().getJobName());
-				tempList1.add(Double.toString(person_lower.getJob().getWage()));
+				tempList1.add(name);
+				tempList1.add(Character.toString(sex));
+				tempList1.add(Integer.toString(age));
+				tempList1.add(id);
 
 				// Polymorphsim
 				System.out.println(person_lower.toString());
@@ -164,12 +162,13 @@ public class Driver
 				temp.add(person_middle);
 
 				List<String> tempList1 = new ArrayList<String>();
-				tempList1.add(person_middle.getName());
-				tempList1.add(Character.toString(person_middle.getSex()));
-				tempList1.add(Integer.toString(person_middle.getAge()));
-				tempList1.add(person_middle.getId());
-				tempList1.add(person_middle.getJob().getJobName());
-				tempList1.add(Double.toString(person_middle.getJob().getWage()));
+				tempList1.add(name);
+				tempList1.add(Character.toString(sex));
+				tempList1.add(Integer.toString(age));
+				tempList1.add(id);
+				tempList1.add(job_middle.getJobName());
+				tempList1.add(Double.toString(job_middle.getWage()));
+
 
 				// Polymorphsim
 				System.out.println(person_middle.toString());
@@ -234,12 +233,13 @@ public class Driver
 				temp.add(person_upper);
 
 				List<String> tempList1 = new ArrayList<String>();
-				tempList1.add(person_upper.getName());
-				tempList1.add(Character.toString(person_upper.getSex()));
-				tempList1.add(Integer.toString(person_upper.getAge()));
-				tempList1.add(person_upper.getId());
-				tempList1.add(person_upper.getJob().getJobName());
-				tempList1.add(Double.toString(person_upper.getJob().getWage()));
+				tempList1.add(name);
+				tempList1.add(Character.toString(sex));
+				tempList1.add(Integer.toString(age));
+				tempList1.add(id);
+				tempList1.add(job_upper.getJobName());
+				tempList1.add(Double.toString(job_upper.getWage()));
+
 
 				// Polymorphsim
 				System.out.println(person_upper.toString());
@@ -288,7 +288,7 @@ public class Driver
 
 		} // end while true
 		
-		System.out.println("The whole person information (Generics): \n "+temp); 
+		System.out.println("The whole person information (Generics): \n "+ temp); 
 
 	}
 }

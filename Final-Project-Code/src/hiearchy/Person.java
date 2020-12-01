@@ -5,22 +5,16 @@ public abstract class Person {
 	String id;
 	char sex; 
 	int age;
-	// User-defined class 
-	Job job;
 	
-	public Person(String name, char sex, int age, String id, Job job) {
+	public Person(String name, char sex, int age, String id) {
 		super();
 		this.name = name;
 		this.sex = sex;
 		this.age = age;
 		this.id = id;
-		this.job = job;
 	}
 	
-	// Getters
-	public Job getJob() {
-		return job;
-	}
+	// Getters 
 	public String getName() {
 		return name;
 	}
@@ -35,10 +29,6 @@ public abstract class Person {
 	}
 	
 	// Setters
-	public void setJob(Job job) {
-		this.job = job;
-	}
-	
 	public void setName(String name) {
 		this.name = name;
 	}
