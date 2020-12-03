@@ -1,17 +1,35 @@
 package hiearchy;
 
 public class Clergy extends UpperClass{
+	
+	int numServants;
+	int moneyOwned;
 	String nameOfFaith;
-	public Clergy(String name, char sex, int age, String id, int numServants, int moneyOwned, boolean isRoyal, String nameOfFaith) {
-		super(name, sex, age, id, numServants, moneyOwned, isRoyal);
+	
+	public Clergy(String name, char sex, int age, String id, int numServants, int moneyOwned, String nameOfFaith) {
+		super(name, sex, age, id);
 		this.nameOfFaith = nameOfFaith;
-		// TODO Auto-generated constructor stub
+		this.numServants = numServants;
+		this.moneyOwned = moneyOwned;
 	}
+	
+	
+	public int getServant() {
+		return numServants;
+	}
+	
+	public int getMoney() {
+		return moneyOwned;
+	}
+	
+	public String getFaith() {
+		return nameOfFaith;
+	}
+	
 
 	@Override
 	public String toString() {
-		return "Clergy [numServants=" + numServants + ", moneyOwned=" + moneyOwned + ", isRoyalFamily=" + isRoyalFamily
-				+ ", name=" + name + ", id=" + id + ", sex=" + sex + ", age=" + age + "]";
+		return "Clergy [numServants=" + numServants + ", moneyOwned=" + moneyOwned + ", name=" + name + ", id=" + id + ", sex=" + sex + ", age=" + age + "]";
 	}
 
 }

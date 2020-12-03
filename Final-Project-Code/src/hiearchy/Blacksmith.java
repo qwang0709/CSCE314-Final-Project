@@ -4,7 +4,6 @@ public class Blacksmith extends MiddleClass {
 
 	public Blacksmith(String name, char sex, int age, String id) {
 		super(name, sex, age, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -1,4 +1,3 @@
-
 /*****************************************
 ** File:    Driver.java
 ** Project: CSCE 314 Final Project, Fall 2020
@@ -14,281 +13,523 @@
 
 **Preliminary Project Application and Description
 
-** In our project, we will create a data processing pipeline where messages flow in one direction.
-** All the messages that come out of A are processed and transformed to some new value-added structure that is sent
-** onto the end of the pipeline. In between are queues to decouple the system. The information we intend to send will
-** be an instance of a class that will hold specific information which the pipeline will then change. We have not yet
-** decided what kind of class we want to create, but each instance will have a unique ID as one of its attributes that we
-** will utilize to hash.
-**
-** To ensure that all data received and in the correct order, a checkpoint is periodically created by A, summarizing all the
-** messages sent since the last checkpoint. It is then passed down the pipeline without being altered so that the last pipe,
-** letâ€™s say C, can read it. Between each checkpoint, system C keeps a running list of all events it has received so that it can
-** compute its own checkpoint message to see whether it matches the checkpoint received by A.
-**
-** As for how we are going to create this â€œcheckpointâ€�, we are not yet sure yet because we are not that familiar with the syntax.
-** Java does not have pointers like C++. If we implemented this in C++, we would simply create a Merkle Tree with the data that
-** A has sent to the pipeline, and would then send the root hash as the checkpoint. The last pipe, C would create its own root hash
-** and check whether it matches the one sent by A. If they donâ€™t, we can use the merkle tree to quickly determine which particular
-** subtree has the problem in log(n) time instead of O(n) time in case we sent a hash list. 
+**		In our project, we will create an application that enabled users in a game to see if the avatars’ data, or information, 
+** has been modified, which could potentially be a red flag for information leak of their avatars. 
+**		There are three general types of avatars: lower, middle and upper classes. And each avatar contains a name, age, sex, 
+** ID, his/her job name and his/her wage. If an avatar’s personal information has been modified, it would result in i
+** nconsistent hash roots of the Merkle tree. And the nodes or leaves of the Merkle tree are each individual string that 
+** contains each a piece of one member’s personal information.
+**		For example, if there is an avatar in lower classes with the information: name => ‘John Doe’, age =>’20’, sex=>’m’, 
+** ID=>’123abc’, job name=>’Police’, wage=>’4000’. Then the player or actually a hacker comes in and changed your avatar’s
+**  wage ‘4000’ to ‘0’ in order to gain unfair advantages when you battle with each other. Then our application would give 
+**  you a warning that your avatar’s information has been modified. 
+**		And at the point you want to quit our application, it will give you a whole list containing all the change histories of 
+** your avatar’s information in every classes.
+**		There are Inheritance, Abstraction, Collections, Generics and Stubs used in this code.
 
 ***********************************************/
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.Scanner;
+
 import hiearchy.Person;
-import hiearchy.LowerClass;
-import hiearchy.MiddleClass;
-import hiearchy.UpperClass;
+//import hiearchy.LowerClass;
+import hiearchy.Slave;
+import hiearchy.Yeomen;
+//import hiearchy.MiddleClass;
+import hiearchy.Blacksmith;
+import hiearchy.Bureucrat;
+import hiearchy.Clergy;
+import hiearchy.Merchant;
+//import hiearchy.UpperClass;
 
 public class Driver 
 {
 	public static void main(String[] args) 
 	{
 		boolean boo = true;
-		String class_option;
-		String name;
-		String id;
-		String job_name;
+		String class_option = "";
+		String name = "";
+		String id = "";
+		//String job_name = "";
 		int age = 0;
-		char sex;
-		double wage = 0.0;
-		
-		List<String> hashes_lower = new ArrayList<String>();
-		List<String> hashes_middle = new ArrayList<String>();
-		List<String> hashes_upper = new ArrayList<String>();
+		char sex = ' ';
+		//double wage = 0.0;
+		List<String> hashes_lower_salve = new ArrayList<String>();
+		List<String> hashes_lower_yeomen = new ArrayList<String>();
+		List<String> hashes_middle_blacksmith = new ArrayList<String>();
+		List<String> hashes_middle_merchant = new ArrayList<String>();
+		List<String> hashes_upper_bur = new ArrayList<String>();
+		List<String> hashes_upper_clr = new ArrayList<String>();
 		
 		//Checking the whole information (Generics)
 		List<Person> temp = new ArrayList<Person>();
 
-		// Create the Scanner code to gather a float and an integer using the variables
-		// already created
-
 		while (true) 
 		{
+			// Create the Scanner 
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Please enter your Class Option (Example: upper, middle, or lower): ");
+			System.out.println("Please enter the class you want your avatar to be in: (Example: upper, middle, or lower) ");
+			
+			// Can only proceed with a chosen class option
 			class_option = sc.next();
+			
+			System.out.println("Please enter the avatar's name: ");
+			name = sc.next();
+			System.out.println("Please enter the avatar's age: ");
+			age = sc.nextInt();
+			System.out.println("Please enter the avatar's sex (Put 'm' for male and 'f' for female): ");
+			sex = sc.next().charAt(0);
+			System.out.println("Please enter the avatar's id: ");
+			id = sc.next();
+			//System.out.println("Please enter your job name: ");
+			//job_name = sc.next();
+			//System.out.println("Please enter your wage: ");
+			//wage = sc.nextDouble();
+
+
 			if (class_option.equals("lower")) 
 			{
-				System.out.println("Please enter your name: ");
-				name = sc.next();
-				System.out.println("Please enter your age: ");
-				age = sc.nextInt();
-				System.out.println("Please enter your sex (Put 'm' for male and 'f' for female): ");
-				sex = sc.next().charAt(0);
-				System.out.println("Please enter your id: ");
-				id = sc.next();
-				System.out.println("Please enter your job name: ");
-				job_name = sc.next();
-				System.out.println("Please enter your wage: ");
-				wage = sc.nextDouble();
-
-			
-				// Initalize 
-				LowerClass person_lower = new LowerClass(name, sex, age, id);
+				String opt_lower;
+				String color;
+				int debt;
+				int service;
+				System.out.println("Please enter your job for lower class ('slave' or 'yeomen'): ");
+				opt_lower = sc.next();
 				
-				
-				//Checking the whole information (Generics)
-				temp.add(person_lower);
-				
-				List<String> tempList1 = new ArrayList<String>();
-				tempList1.add(name);
-				tempList1.add(Character.toString(sex));
-				tempList1.add(Integer.toString(age));
-				tempList1.add(id);
-
-				// Polymorphsim
-				System.out.println(person_lower.toString());
-
-				// Make a person's info a merkle tree
-				MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
-
-				// Create and display the root hash
-				merkleTrees_test.createRoot();
-				String tempRoot = merkleTrees_test.getRoot();
-				System.out.println("The root hash is: " + tempRoot);
-
-				// Check if the root hash changes compared to the previous one
-				if (hashes_lower.isEmpty()) 
+				if (opt_lower.equals("slave")) 
 				{
-					System.out.println("This is the first hash root in lower class!");
-					hashes_lower.add(tempRoot);
-				} 
-				else 
-				{
-					if (!(tempRoot.equals(hashes_lower.get(hashes_lower.size() - 1)))) 
+		
+					System.out.println("Enter slave's color: ");
+					color = sc.next();
+					System.out.println("Enter slave's debt: ");
+					debt = sc.nextInt();
+					System.out.println("Enter slave's years of service: ");
+					service = sc.nextInt();
+					
+					// Initilize slave object 
+					Slave slv = new Slave(name, sex, age, id, debt, service, color);
+					
+					// Adding lower class object to generics list 
+					temp.add(slv);
+					
+					//Creating each tree leaf, that is, the each piece of info
+					List<String> tempList1 = new ArrayList<String>();
+					tempList1.add(slv.getName());
+					tempList1.add(Character.toString(slv.getSex()));
+					tempList1.add(Integer.toString(slv.getAge()));
+					tempList1.add(slv.getId());
+					tempList1.add(Integer.toString(slv.getDebt()));
+					tempList1.add(Integer.toString(slv.getSev()));
+					
+					// Calling the toString function (polymorphsim)
+					System.out.println(slv.toString());
+					
+					// Make a person's info a merkle tree
+					MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
+					
+					// Create and display the root hash
+					merkleTrees_test.createRoot();
+					String tempRoot = merkleTrees_test.getRoot();
+					System.out.println("The root hash is: " + tempRoot);
+					
+					// Check if the root hash changes compared to the previous one
+					if (hashes_lower_salve.isEmpty()) 
 					{
-						hashes_lower.add(tempRoot);
-						System.out.println("Warning: Your personal info has been modified in lower class!!");
+						System.out.println("This is the first hash root in lower class => Slave !");
+						hashes_lower_salve.add(tempRoot);
 					} 
 					else 
 					{
-						System.out.println("Your personal info is secure in lower class :)");
+						// If the new hash root is not equal to the previous one
+						if (!(tempRoot.equals(hashes_lower_salve.get(hashes_lower_salve.size() - 1)))) 
+						{
+							// Adding it to the list first then inform the user
+							hashes_lower_salve.add(tempRoot);
+							System.out.println("Warning: Your personal info has been modified in lower class => Slave !!");
+						} 
+						else 
+						{
+							System.out.println("Your personal info is secure in lower class => Slave :)");
+						}
+
 					}
 
+					System.out.println("Do you wish to continue? (true, false)");
+					boo = sc.nextBoolean();
+					if (!boo) 
+					{
+						sc.close();
+						break;
+					}
 				}
-
-				System.out.println("Do you wish to continue? (true, false)");
-				boo = sc.nextBoolean();
-				if (!boo) 
+				//end slave
+				
+				else if (opt_lower.equals("yeomen")) 
 				{
-					sc.close();
-					break;
+
+					System.out.println("Enter Yeoman's debt: ");
+					debt = sc.nextInt();
+					System.out.println("Enter Yeoman's years of service: ");
+					service = sc.nextInt();
+					
+					// Initilize Yeomen object 
+					Yeomen ymn = new Yeomen(name, sex, age, id, debt, service);
+					
+					// Adding lower class object to generics list 
+					temp.add(ymn);
+					
+					//Creating each tree leaf, that is, the each piece of info
+					List<String> tempList1 = new ArrayList<String>();
+					tempList1.add(ymn.getName());
+					tempList1.add(Character.toString(ymn.getSex()));
+					tempList1.add(Integer.toString(ymn.getAge()));
+					tempList1.add(ymn.getId());
+					tempList1.add(Integer.toString(ymn.getDebt()));
+					tempList1.add(Integer.toString(ymn.getSev()));
+					
+					// Calling the toString function (polymorphsim)
+					System.out.println(ymn.toString());
+					
+					// Make a person's info a merkle tree
+					MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
+					
+					// Create and display the root hash
+					merkleTrees_test.createRoot();
+					String tempRoot = merkleTrees_test.getRoot();
+					System.out.println("The root hash is: " + tempRoot);
+					
+					// Check if the root hash changes compared to the previous one
+					if (hashes_lower_yeomen.isEmpty()) 
+					{
+						System.out.println("This is the first hash root in lower class  => Yeomen !");
+						hashes_lower_yeomen.add(tempRoot);
+					} 
+					else 
+					{
+						// If the new hash root is not equal to the previous one
+						if (!(tempRoot.equals(hashes_lower_yeomen.get(hashes_lower_yeomen.size() - 1)))) 
+						{
+							// Adding it to the list first then inform the user
+							hashes_lower_yeomen.add(tempRoot);
+							System.out.println("Warning: Your Avatar's info has been modified in lower class => Yeomen !!");
+						} 
+						else 
+						{
+							System.out.println("Your personal info is secure in lower class => Yeomen :)");
+						}
+
+					}
+
+					System.out.println("Do you wish to continue? (true, false)");
+					boo = sc.nextBoolean();
+					if (!boo) 
+					{
+						sc.close();
+						break;
+					}
+					
 				}
-
-			} // end of lower
-
+				//end yeoman
+			} 
+			// end of lower class
+			
 			else if (class_option.equals("middle")) 
 			{
-				System.out.println("Please enter your name: ");
-				name = sc.next();
-				System.out.println("Please enter your age: ");
-				age = sc.nextInt();
-				System.out.println("Please enter your sex (Put 'm' for male and 'f' for female): ");
-				sex = sc.next().charAt(0);
-				System.out.println("Please enter your id: ");
-				id = sc.next();
-				System.out.println("Please enter your job name: ");
-				job_name = sc.next();
-				System.out.println("Please enter your wage: ");
-				wage = sc.nextDouble();
-
-				Job job_middle = new Job(job_name, wage);
-
-				MiddleClass person_middle = new MiddleClass(name, sex, age, id, job_middle);
+				String opt_middle;
+				int money;
+				int num_svt;
+				System.out.println("Please enter your job for lower class ('blacksmith' or 'merchant'): ");
+				opt_middle = sc.next();
 				
-				temp.add(person_middle);
-
-				List<String> tempList1 = new ArrayList<String>();
-				tempList1.add(name);
-				tempList1.add(Character.toString(sex));
-				tempList1.add(Integer.toString(age));
-				tempList1.add(id);
-				tempList1.add(job_middle.getJobName());
-				tempList1.add(Double.toString(job_middle.getWage()));
-
-
-				// Polymorphsim
-				System.out.println(person_middle.toString());
-
-				// Make a person's info a merkle tree
-				MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
-
-				// Create and display the root hash
-				merkleTrees_test.createRoot();
-				String tempRoot = merkleTrees_test.getRoot();
-				System.out.println("The root hash is: " + tempRoot);
-
-				// Check if the root hash changes compared to the previous one
-				if (hashes_middle.isEmpty()) 
+				if (opt_middle.equals("blacksmith")) 
 				{
-					System.out.println("This is the first hash root in middle class!");
-					hashes_middle.add(tempRoot);
-				} 
-				else 
-				{
-					if (!(tempRoot.equals(hashes_middle.get(hashes_middle.size() - 1)))) 
+					// Initilize slave object 
+					Blacksmith bsm = new Blacksmith(name, sex, age, id);
+					
+					// Adding lower class object to generics list 
+					temp.add(bsm);
+					
+					//Creating each tree leaf, that is, the each piece of info
+					List<String> tempList1 = new ArrayList<String>();
+					tempList1.add(bsm.getName());
+					tempList1.add(Character.toString(bsm.getSex()));
+					tempList1.add(Integer.toString(bsm.getAge()));
+					tempList1.add(bsm.getId());
+					
+					// Calling the toString function (polymorphsim)
+					System.out.println(bsm.toString());
+					
+					// Make a person's info a merkle tree
+					MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
+					
+					// Create and display the root hash
+					merkleTrees_test.createRoot();
+					String tempRoot = merkleTrees_test.getRoot();
+					System.out.println("The root hash is: " + tempRoot);
+					
+					// Check if the root hash changes compared to the previous one
+					if (hashes_middle_blacksmith.isEmpty()) 
 					{
-						hashes_middle.add(tempRoot);
-						System.out.println("Warning: Your personal info in middle class has been modified!!");
+						System.out.println("This is the first hash root in middle class => Blacksmith !");
+						hashes_middle_blacksmith.add(tempRoot);
 					} 
 					else 
 					{
-						System.out.println("Your personal info in middle class is secure :)");
+						// If the new hash root is not equal to the previous one
+						if (!(tempRoot.equals(hashes_middle_blacksmith.get(hashes_middle_blacksmith.size() - 1)))) 
+						{
+							// Adding it to the list first then inform the user
+							hashes_middle_blacksmith.add(tempRoot);
+							System.out.println("Warning: Your personal info has been modified in middle class => Blacksmith !!");
+						} 
+						else 
+						{
+							System.out.println("Your personal info is secure in middle class => Blacksmith :)");
+						}
+
 					}
 
+					System.out.println("Do you wish to continue? (true, false)");
+					boo = sc.nextBoolean();
+					if (!boo) 
+					{
+						sc.close();
+						break;
+					}
+					
 				}
-
-				System.out.println("Do you wish to continue? (true, false)");
-				boo = sc.nextBoolean();
-				if (!boo) 
+				// end of blksmith
+				
+				else if (opt_middle.equals("merchant"))
 				{
-					sc.close();
-					break;
+					System.out.println("Enter Merchant's money owned: ");
+					money = sc.nextInt();
+					System.out.println("Enter Merchant's number of servants: ");
+					num_svt = sc.nextInt();
+					
+					// Initilize slave object 
+					Merchant mct = new Merchant(name, sex, age, id, num_svt, money);
+					
+					// Adding lower class object to generics list 
+					temp.add(mct);
+					
+					//Creating each tree leaf, that is, the each piece of info
+					List<String> tempList1 = new ArrayList<String>();
+					tempList1.add(mct.getName());
+					tempList1.add(Character.toString(mct.getSex()));
+					tempList1.add(Integer.toString(mct.getAge()));
+					tempList1.add(mct.getId());
+					tempList1.add(Integer.toString(mct.getMoney()));
+					tempList1.add(Integer.toString(mct.getServant()));
+					
+					// Calling the toString function (polymorphsim)
+					System.out.println(mct.toString());
+					
+					// Make a person's info a merkle tree
+					MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
+					
+					// Create and display the root hash
+					merkleTrees_test.createRoot();
+					String tempRoot = merkleTrees_test.getRoot();
+					System.out.println("The root hash is: " + tempRoot);
+					
+					// Check if the root hash changes compared to the previous one
+					if (hashes_middle_merchant.isEmpty()) 
+					{
+						System.out.println("This is the first hash root in middle class => Merchant !");
+						hashes_middle_merchant.add(tempRoot);
+					} 
+					else 
+					{
+						// If the new hash root is not equal to the previous one
+						if (!(tempRoot.equals(hashes_middle_merchant.get(hashes_middle_merchant.size() - 1)))) 
+						{
+							// Adding it to the list first then inform the user
+							hashes_middle_merchant.add(tempRoot);
+							System.out.println("Warning: Your personal info has been modified in middle class => Merchant !!");
+						} 
+						else 
+						{
+							System.out.println("Your personal info is secure in middle class => Merchant :)");
+						}
+
+					}
+
+					System.out.println("Do you wish to continue? (true, false)");
+					boo = sc.nextBoolean();
+					if (!boo) 
+					{
+						sc.close();
+						break;
+					}
 				}
-
-			} // end of lower
-
+				// end of merchant
+			}
+			//end middle
 			else if (class_option.equals("upper")) 
 			{
-				System.out.println("Please enter your name: ");
-				name = sc.next();
-				System.out.println("Please enter your age: ");
-				age = sc.nextInt();
-				System.out.println("Please enter your sex (Put 'm' for male and 'f' for female): ");
-				sex = sc.next().charAt(0);
-				System.out.println("Please enter your id: ");
-				id = sc.next();
-				System.out.println("Please enter your job name: ");
-				job_name = sc.next();
-				System.out.println("Please enter your wage: ");
-				wage = sc.nextDouble();
-
-				Job job_upper = new Job(job_name, wage);
-
-				UpperClass person_upper = new UpperClass(name, sex, age, id, job_upper);
+				String opt_upper;
+				String faith;
+			
+				int money;
+				int num_svt;
+				System.out.println("Please enter your job for lower class ('bureucrat' or 'clergy'): ");
+				opt_upper = sc.next();
 				
-				temp.add(person_upper);
-
-				List<String> tempList1 = new ArrayList<String>();
-				tempList1.add(name);
-				tempList1.add(Character.toString(sex));
-				tempList1.add(Integer.toString(age));
-				tempList1.add(id);
-				tempList1.add(job_upper.getJobName());
-				tempList1.add(Double.toString(job_upper.getWage()));
-
-
-				// Polymorphsim
-				System.out.println(person_upper.toString());
-
-				// Make a person's info a merkle tree
-				MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
-
-				// Create and display the root hash
-				merkleTrees_test.createRoot();
-				String tempRoot = merkleTrees_test.getRoot();
-				System.out.println("The root hash is: " + tempRoot);
-
-				// Check if the root hash changes compared to the previous one
-				if (hashes_upper.isEmpty()) 
+				if (opt_upper.equals("bureucrat"))
 				{
-					System.out.println("This is the first hash root in upper class!");
-					hashes_upper.add(tempRoot);
-				} 
-				else 
-				{
-					if (!(tempRoot.equals(hashes_upper.get(hashes_upper.size() - 1)))) 
+					System.out.println("Enter Bureucrat's money owned: ");
+					money = sc.nextInt();
+					System.out.println("Enter Bureucrat's number of servants: ");
+					num_svt = sc.nextInt();
+					
+					// Initilize slave object 
+					Bureucrat brt = new Bureucrat(name, sex, age, id, num_svt, money);
+					
+					// Adding lower class object to generics list 
+					temp.add(brt);
+					
+					//Creating each tree leaf, that is, the each piece of info
+					List<String> tempList1 = new ArrayList<String>();
+					tempList1.add(brt.getName());
+					tempList1.add(Character.toString(brt.getSex()));
+					tempList1.add(Integer.toString(brt.getAge()));
+					tempList1.add(brt.getId());
+					tempList1.add(Integer.toString(brt.getMoney()));
+					tempList1.add(Integer.toString(brt.getServant()));
+					
+					// Calling the toString function (polymorphsim)
+					System.out.println(brt.toString());
+					
+					// Make a person's info a merkle tree
+					MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
+					
+					// Create and display the root hash
+					merkleTrees_test.createRoot();
+					String tempRoot = merkleTrees_test.getRoot();
+					System.out.println("The root hash is: " + tempRoot);
+					
+					// Check if the root hash changes compared to the previous one
+					if (hashes_upper_bur.isEmpty()) 
 					{
-						hashes_upper.add(tempRoot);
-						System.out.println("Warning: Your personal info in upper class has been modified!!");
+						System.out.println("This is the first hash root in upper class => Bureucrat !");
+						hashes_upper_bur.add(tempRoot);
 					} 
 					else 
 					{
-						System.out.println("Your personal info in upper class is secure :)");
+						// If the new hash root is not equal to the previous one
+						if (!(tempRoot.equals(hashes_upper_bur.get(hashes_upper_bur.size() - 1)))) 
+						{
+							// Adding it to the list first then inform the user
+							hashes_upper_bur.add(tempRoot);
+							System.out.println("Warning: Your personal info has been modified in upper class => Bureucrat !!");
+						} 
+						else 
+						{
+							System.out.println("Your personal info is secure in upper class => Bureucrat :)");
+						}
+
 					}
 
+					System.out.println("Do you wish to continue? (true, false)");
+					boo = sc.nextBoolean();
+					if (!boo) 
+					{
+						sc.close();
+						break;
+					}
 				}
-
-				System.out.println("Do you wish to continue? (true, false)");
-				boo = sc.nextBoolean();
-				if (!boo) 
+				// end of bureucrat
+				
+				else if (opt_upper.equals("clergy"))
 				{
-					sc.close();
-					break;
+					
+						System.out.println("Enter Clergy's money owned: ");
+						money = sc.nextInt();
+						System.out.println("Enter Clergy's number of servants: ");
+						num_svt = sc.nextInt();
+						System.out.println("Enter Clergy's name of faith: ");
+						faith = sc.next();
+						
+						
+						// Initilize slave object 
+						Clergy cly = new Clergy(name, sex, age, id, num_svt, money, faith);
+						
+						// Adding lower class object to generics list 
+						temp.add(cly);
+						
+						//Creating each tree leaf, that is, the each piece of info
+						List<String> tempList1 = new ArrayList<String>();
+						tempList1.add(cly.getName());
+						tempList1.add(Character.toString(cly.getSex()));
+						tempList1.add(Integer.toString(cly.getAge()));
+						tempList1.add(cly.getId());
+						tempList1.add(Integer.toString(cly.getMoney()));
+						tempList1.add(Integer.toString(cly.getServant()));
+						tempList1.add(cly.getFaith());
+						
+						// Calling the toString function (polymorphsim)
+						System.out.println(cly.toString());
+						
+						// Make a person's info a merkle tree
+						MerkleTrees merkleTrees_test = new MerkleTrees(tempList1);
+						
+						// Create and display the root hash
+						merkleTrees_test.createRoot();
+						String tempRoot = merkleTrees_test.getRoot();
+						System.out.println("The root hash is: " + tempRoot);
+						
+						// Check if the root hash changes compared to the previous one
+						if (hashes_upper_clr.isEmpty()) 
+						{
+							System.out.println("This is the first hash root in upper class => Clergy !");
+							hashes_upper_clr.add(tempRoot);
+						} 
+						else 
+						{
+							// If the new hash root is not equal to the previous one
+							if (!(tempRoot.equals(hashes_upper_clr.get(hashes_upper_clr.size() - 1)))) 
+							{
+								// Adding it to the list first then inform the user
+								hashes_upper_clr.add(tempRoot);
+								System.out.println("Warning: Your personal info has been modified in upper class => Clergy !!");
+							} 
+							else 
+							{
+								System.out.println("Your personal info is secure in upper class => Clergy :)");
+							}
+
+						}
+
+						System.out.println("Do you wish to continue? (true, false)");
+						boo = sc.nextBoolean();
+						if (!boo) 
+						{
+							sc.close();
+							break;
+						}
+					}	
+				    // end of clergy
+				
+				
 				}
-
-			} // end of upper
-			else 
+				// end upper
+			
+			else
 			{
-				System.out.println("You have typed an wrong class option!");
+				sc.close();
+				break;
 			}
-
-		} // end while true
-		
-		System.out.println("The whole person information (Generics): \n "+ temp); 
+			// end all cases
+			
+				
+		}
+		// end while true
+	
+			 
+	    System.out.println("The whole person information (Generics): \n "+temp); 
 
 	}
 }

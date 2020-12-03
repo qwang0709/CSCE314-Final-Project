@@ -3,17 +3,22 @@ package hiearchy;
 public class Slave extends LowerClass {
 	// Some slaves can free themselves by earning enough money, but most of the time, they are slave for life
 	String color;
-	@Override
-	public String toString() {
-		return "Slave [color=" + color + ", amountOfDebt=" + amountOfDebt + ", name=" + name + ", id=" + id + ", sex="
-				+ sex + ", age=" + age + "]";
-	}
-
 	int amountOfDebt;
+	int yearsOfService;
+	
 	public Slave(String name, char sex, int age, String id, int amountOfDebt, int yearsOfService, String color) {
-		super(name, sex, age, id, amountOfDebt, yearsOfService);
+		super(name, sex, age, id);
 		this.color = color;
-		// TODO Auto-generated constructor stub
+		this.amountOfDebt = amountOfDebt;
+		this.yearsOfService = yearsOfService;
+	}
+	
+	public int getDebt() {
+		return amountOfDebt;
+	}
+	
+	public int getSev() {
+		return yearsOfService;
 	}
 	
 
@@ -23,5 +28,11 @@ public class Slave extends LowerClass {
 	
 	void increaseDebt(int numOwed) {
 		amountOfDebt += numOwed;
+	}
+	
+	@Override
+	public String toString() {
+		return "Slave [color=" + color + ", amountOfDebt=" + amountOfDebt + ", name=" + name + ", id=" + id + ", sex="
+				+ sex + ", age=" + age + ", yearsOfService= " + yearsOfService + "]";
 	}
 }
