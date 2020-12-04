@@ -34,15 +34,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import hiearchy.Person;
-//import hiearchy.LowerClass;
 import hiearchy.Slave;
 import hiearchy.Yeomen;
-//import hiearchy.MiddleClass;
 import hiearchy.Blacksmith;
 import hiearchy.Bureucrat;
 import hiearchy.Clergy;
 import hiearchy.Merchant;
-//import hiearchy.UpperClass;
 
 public class Driver 
 {
@@ -52,10 +49,9 @@ public class Driver
 		String class_option = "";
 		String name = "";
 		String id = "";
-		// String job_name = "";
 		int age = 0;
 		char sex = ' ';
-		// double wage = 0.0;
+
 		List<String> hashes_lower_salve = new ArrayList<String>();
 		List<String> hashes_lower_yeomen = new ArrayList<String>();
 		List<String> hashes_middle_blacksmith = new ArrayList<String>();
@@ -85,10 +81,7 @@ public class Driver
 				sex = sc.next().charAt(0);
 				System.out.println("Please enter the avatar's id: ");
 				id = sc.next();
-				// System.out.println("Please enter your job name: ");
-				// job_name = sc.next();
-				// System.out.println("Please enter your wage: ");
-				// wage = sc.nextDouble();
+
 
 				// Creating each tree leaf, that is, the each piece of info
 				List<String> tempList = new ArrayList<String>();
@@ -112,10 +105,10 @@ public class Driver
 						System.out.println("Enter slave's years of service: ");
 						service = sc.nextInt();
 
-						// Initilize slave object
+						// Initilize Slave object
 						Slave slv = new Slave(name, sex, age, id, debt, service, color);
 
-						// Adding lower class object to generics list
+						// Adding Slave object to generics list
 						temp.add(slv);
 
 						tempList.add(slv.getName());
@@ -128,7 +121,7 @@ public class Driver
 						// Calling the toString function (polymorphsim)
 						System.out.println(slv.toString());
 
-						// Make a person's info a merkle tree
+						// Make the avatar's info a merkle tree
 						MerkleTrees merkleTrees_test = new MerkleTrees(tempList);
 
 						// Create and display the root hash
@@ -180,7 +173,7 @@ public class Driver
 						// Initilize Yeomen object
 						Yeomen ymn = new Yeomen(name, sex, age, id, debt, service);
 
-						// Adding lower class object to generics list
+						// Adding Yeomen object to generics list
 						temp.add(ymn);
 
 						tempList.add(ymn.getName());
@@ -193,7 +186,7 @@ public class Driver
 						// Calling the toString function (polymorphsim)
 						System.out.println(ymn.toString());
 
-						// Make a person's info a merkle tree
+						// Make the avatar's info a merkle tree
 						MerkleTrees merkleTrees_test = new MerkleTrees(tempList);
 
 						// Create and display the root hash
@@ -247,10 +240,10 @@ public class Driver
 
 					if (opt_middle.equals("blacksmith")) 
 					{
-						// Initilize slave object
+						// Initilize Blacksmith object
 						Blacksmith bsm = new Blacksmith(name, sex, age, id);
 
-						// Adding lower class object to generics list
+						// Adding Blacksmith object to generics list
 						temp.add(bsm);
 
 						tempList.add(bsm.getName());
@@ -261,7 +254,7 @@ public class Driver
 						// Calling the toString function (polymorphsim)
 						System.out.println(bsm.toString());
 
-						// Make a person's info a merkle tree
+						// Make the avatar's info a merkle tree
 						MerkleTrees merkleTrees_test = new MerkleTrees(tempList);
 
 						// Create and display the root hash
@@ -310,10 +303,10 @@ public class Driver
 						System.out.println("Enter Merchant's number of servants: ");
 						num_svt = sc.nextInt();
 
-						// Initilize slave object
+						// Initilize Merchant object
 						Merchant mct = new Merchant(name, sex, age, id, num_svt, money);
 
-						// Adding lower class object to generics list
+						// Adding Merchant object to generics list
 						temp.add(mct);
 
 						tempList.add(mct.getName());
@@ -326,7 +319,7 @@ public class Driver
 						// Calling the toString function (polymorphsim)
 						System.out.println(mct.toString());
 
-						// Make a person's info a merkle tree
+						// Make the avatar's info a merkle tree
 						MerkleTrees merkleTrees_test = new MerkleTrees(tempList);
 
 						// Create and display the root hash
@@ -385,10 +378,10 @@ public class Driver
 						System.out.println("Enter Bureucrat's number of servants: ");
 						num_svt = sc.nextInt();
 
-						// Initilize slave object
+						// Initilize Bureucrat object
 						Bureucrat brt = new Bureucrat(name, sex, age, id, num_svt, money);
 
-						// Adding lower class object to generics list
+						// Adding Bureucrat object to generics list
 						temp.add(brt);
 
 						tempList.add(brt.getName());
@@ -401,7 +394,7 @@ public class Driver
 						// Calling the toString function (polymorphsim)
 						System.out.println(brt.toString());
 
-						// Make a person's info a merkle tree
+						// Make the avatar's info a merkle tree
 						MerkleTrees merkleTrees_test = new MerkleTrees(tempList);
 
 						// Create and display the root hash
@@ -452,10 +445,10 @@ public class Driver
 						System.out.println("Enter Clergy's name of faith: ");
 						faith = sc.next();
 
-						// Initilize slave object
+						// Initilize Clergy object
 						Clergy cly = new Clergy(name, sex, age, id, num_svt, money, faith);
 
-						// Adding lower class object to generics list
+						// Adding Clergy object to generics list
 						temp.add(cly);
 
 						tempList.add(cly.getName());
@@ -469,7 +462,7 @@ public class Driver
 						// Calling the toString function (polymorphsim)
 						System.out.println(cly.toString());
 
-						// Make a person's info a merkle tree
+						// Make the avatar's info a merkle tree
 						MerkleTrees merkleTrees_test = new MerkleTrees(tempList);
 
 						// Create and display the root hash
@@ -526,7 +519,7 @@ public class Driver
 		}
 		// end while true
 
-		System.out.println("The whole person information (Generics): \n " + temp);
+		System.out.println("All Avatar's information listed below (Java Generics): \n " + temp);
 
 	}
 }
